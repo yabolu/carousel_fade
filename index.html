@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>轮播--渐变</title>
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+</head>
+<body>
+	<div class="carousel">
+		<ul class="img-ct clearfix">
+			<li><a href="#"><img src="./static/imgs/23.jpg" alt=""></a></li>
+			<li><a href="#"><img src="./static/imgs/24.jpg" alt=""></a></li>
+			<li><a href="#"><img src="./static/imgs/25.jpg" alt=""></a></li>
+			<li><a href="#"><img src="./static/imgs/26.jpg" alt=""></a></li>
+		</ul>
+		<a class="arrow prev"><</a>
+		<a class="arrow next">></a>
+		<ul class="bullets">
+			<li class="active"></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+
+	<script type="text/javascript">
+		var $lis = $('.carousel .img-ct>li');
+		var $imgs = $('.carousel .img-ct img');
+		var imgCount = $imgs.length;
+		var currentIndex = 0;
+		var isPlay = false;
+		var $bullets = $('.bullets>li');
+
+		$('.next').click(function(){
+			playNext(1);
+		});
+
+		$('.prev').click(function(){
+			playPrev(1);
+		});
+
+		$bullets.click(function(){
+			var index = $(this).index();
+			play(index);
+		});
+
+		play(0);
+
+		var tId = setInterval(function(){
+			playNext(1);
+		}, 2000);
+
+		function playNext(len) {
+			var index = (currentIndex+len)%imgCount;
+			if(!isPlay) {
+				play(index);
+			}
+		}
+
+		function playPrev(len) {
+			var index = (currentIndex+imgCount-len)%imgCount;
+			if(!isPlay) {
+				play(index);
+			}
+		}
+
+		function play(pageIndex) {
+			isPlay = true;
+			$lis.eq(currentIndex).fadeOut(500);
+			$lis.eq(pageIndex).fadeIn(500, function(){
+				isPlay = false;
+			});
+			currentIndex = pageIndex;
+			setBullet();
+		}
+
+		function setBullet(){
+			$bullets.removeClass('active').eq(currentIndex).addClass('active');
+		}
+
+
+	</script>
+</body>
+</html>
